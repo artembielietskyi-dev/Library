@@ -77,10 +77,30 @@ namespace Library
 			Console.WriteLine("та книги, видані понад 14 днів.");
 		}
 
-		// Заглушка: буде реалізовано на наступному етапі
+		// Табулювання: штраф залежно від кількості днів прострочення
+		// y1 = 2,5 * x                   — звичайний штраф, грн
+		// y2 = 2,5 * x * (1 + 0,05 * x)  — штраф із надбавкою за тривале прострочення
 		static void ShowFineTable()
 		{
-			Console.WriteLine("Цей пункт ще не готовий.");
+			double start = 0.5;
+			double end = 5.0;
+			double step = 0.5;
+
+			string h1 = "Днів";
+			string h2 = "Штраф";
+			string h3 = "З надбавкою";
+
+			Console.WriteLine("Штраф за прострочення повернення книги");
+			Console.WriteLine($"{h1,8}{h2,12}{h3,16}");
+			Console.WriteLine(new string('-', 36));
+
+			// 1e-9 — запас, бо дробові числа зберігаються наближено
+			for (double x = start; x <= end + 1e-9; x += step)
+			{
+				double y1 = 2.5 * x;
+				double y2 = 2.5 * x * (1 + 0.05 * x);
+				Console.WriteLine($"{x,8:F1}{y1,12:F2}{y2,16:F2}");
+			}
 		}
 
 		// Заглушка: буде реалізовано на наступному етапі
