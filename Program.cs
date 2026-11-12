@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Проєкт: Library (тема 1 — Бібліотека)
+// Автор: Бєлєцький Артем
+
+using System;
 using System.Text;
 
 namespace Library
