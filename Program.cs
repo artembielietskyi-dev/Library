@@ -103,10 +103,41 @@ namespace Library
 			}
 		}
 
-		// Заглушка: буде реалізовано на наступному етапі
+		// Таблиця з двома входами: рядки — жанри, стовпці — дні тижня,
+		// останній стовпець — підсумок рядка
 		static void ShowGenreTable()
 		{
-			Console.WriteLine("Цей пункт ще не готовий.");
+			string[] genres = { "пригоди", "роман", "драма", "детектив",
+								"фантастика", "поезія", "історія", "казки" };
+			string[] days = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд" };
+
+			string head = "Жанр";
+			string sumHead = "Разом";
+
+			Console.WriteLine("Видачі книг за жанрами й днями тижня");
+
+			// Шапка таблиці
+			Console.Write($"{head,-14}");
+			for (int c = 0; c < days.Length; c++)
+			{
+				Console.Write($"{days[c],6}");
+			}
+			Console.WriteLine($"{sumHead,8}");
+			Console.WriteLine(new string('-', 14 + days.Length * 6 + 8));
+
+			// Рядки таблиці
+			for (int r = 0; r < genres.Length; r++)
+			{
+				int rowSum = 0; // обнуляється для кожного нового рядка
+				Console.Write($"{genres[r],-14}");
+				for (int c = 0; c < days.Length; c++)
+				{
+					int value = (r + c + 2 * r * c) % 8 + 1; // навчальні дані
+					Console.Write($"{value,6}");
+					rowSum += value;
+				}
+				Console.WriteLine($"{rowSum,8}"); // перехід на новий рядок
+			}
 		}
 	}
 }
