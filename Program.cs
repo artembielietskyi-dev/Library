@@ -103,41 +103,85 @@ namespace Library
 			}
 		}
 
-		// Таблиця з двома входами: рядки — жанри, стовпці — дні тижня,
-		// останній стовпець — підсумок рядка
+		// Таблиця з двома входами та підсумками; розмір вводить користувач
 		static void ShowGenreTable()
 		{
 			string[] genres = { "пригоди", "роман", "драма", "детектив",
 								"фантастика", "поезія", "історія", "казки" };
 			string[] days = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд" };
 
+			// Розмір таблиці питаємо в користувача
+			int rows = ReadSize("Скільки жанрів (рядків) показати", genres.Length);
+			if (rows == -1) return; // помилка вводу — повертаємось у меню
+			int cols = ReadSize("Скільки днів (стовпців) показати", days.Length);
+			if (cols == -1) return;
+
 			string head = "Жанр";
 			string sumHead = "Разом";
 
+			Console.WriteLine();
 			Console.WriteLine("Видачі книг за жанрами й днями тижня");
 
 			// Шапка таблиці
 			Console.Write($"{head,-14}");
-			for (int c = 0; c < days.Length; c++)
+			for (int c = 0; c < cols; c++)
 			{
 				Console.Write($"{days[c],6}");
 			}
 			Console.WriteLine($"{sumHead,8}");
-			Console.WriteLine(new string('-', 14 + days.Length * 6 + 8));
+			Console.WriteLine(new string('-', 14 + cols * 6 + 8));
+
+			int[] colSum = new int[cols]; // підсумки по стовпцях
+			int total = 0;                // загальний підсумок
 
 			// Рядки таблиці
-			for (int r = 0; r < genres.Length; r++)
+			for (int r = 0; r < rows; r++)
 			{
 				int rowSum = 0; // обнуляється для кожного нового рядка
 				Console.Write($"{genres[r],-14}");
-				for (int c = 0; c < days.Length; c++)
+				for (int c = 0; c < cols; c++)
 				{
 					int value = (r + c + 2 * r * c) % 8 + 1; // навчальні дані
 					Console.Write($"{value,6}");
 					rowSum += value;
+					colSum[c] += value;
 				}
-				Console.WriteLine($"{rowSum,8}"); // перехід на новий рядок
+				Console.WriteLine($"{rowSum,8}");
+				total += rowSum;
 			}
+
+			// Рядок підсумків під таблицею
+			Console.WriteLine(new string('-', 14 + cols * 6 + 8));
+			Console.Write($"{sumHead,-14}");
+			for (int c = 0; c < cols; c++)
+			{
+				Console.Write($"{colSum[c],6}");
+			}
+			Console.WriteLine($"{total,8}");
 		}
-	}
+
+		// Читає розмір таблиці. Повертає -1, якщо ввід неправильний
+		static int ReadSize(string prompt, int max)
+		{
+			Console.Write($"{prompt} (1–{max}): ");
+			string text = Console.ReadLine();
+
+			if (!int.TryParse(text, out int n))
+			{
+				Console.WriteLine("Помилка: потрібно ввести ціле число.");
+				return -1;
+			}
+			if (n <= 0)
+			{
+				Console.WriteLine("Помилка: число має бути більшим за нуль.");
+				return -1;
+			}
+			if (n > max)
+			{
+				Console.WriteLine($"Помилка: максимум {max}.");
+				return -1;
+			}
+			return n;
+		}
+	}	
 }
