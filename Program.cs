@@ -8,6 +8,9 @@ namespace Library
 {
 	internal class Program
 	{
+		// Ставка штрафу за один день і частка надбавки за тривале прострочення
+		const double DayRate = 2.5;
+		const double Surcharge = 0.05;
 		static void Main(string[] args)
 		{
 			Console.OutputEncoding = Encoding.UTF8;
@@ -76,9 +79,16 @@ namespace Library
 			Console.WriteLine("та книги, видані понад 14 днів.");
 		}
 
+		// Рахує штраф за прострочення і повертає його (нічого не виводить).
+		// days — днів прострочення, ratePerDay — ставка за день, грн,
+		// surcharge — надбавка: частка від суми за кожен день прострочення.
+		// Формула: ratePerDay * days * (1 + surcharge * days)
+		static double CalculateFine(double days, double ratePerDay, double surcharge)
+		{
+			return ratePerDay * days * (1 + surcharge * days);
+		}
+
 		// Табулювання: штраф залежно від кількості днів прострочення
-		// y1 = 2,5 * x                   — звичайний штраф, грн
-		// y2 = 2,5 * x * (1 + 0,05 * x)  — штраф із надбавкою за тривале прострочення
 		static void ShowFineTable()
 		{
 			double start = 0.5;
@@ -96,9 +106,9 @@ namespace Library
 			// 1e-9 — запас, бо дробові числа зберігаються наближено
 			for (double x = start; x <= end + 1e-9; x += step)
 			{
-				double y1 = 2.5 * x;
-				double y2 = 2.5 * x * (1 + 0.05 * x);
-				Console.WriteLine($"{x,8:F1}{y1,12:F2}{y2,16:F2}");
+				double fine = CalculateFine(x, DayRate, 0);
+				double fineExtra = CalculateFine(x, DayRate, Surcharge);
+				Console.WriteLine($"{x,8:F1}{fine,12:F2}{fineExtra,16:F2}");
 			}
 		}
 
