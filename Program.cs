@@ -16,39 +16,35 @@ namespace Library
 
 			while (running)
 			{
-				Console.WriteLine("=== Бібліотека ===");
-				Console.WriteLine("1 — довідка про застосунок");
-				Console.WriteLine("2 — табулювання: штраф за прострочення");
-				Console.WriteLine("3 — таблиця: видачі за жанрами й днями тижня");
-				Console.WriteLine("0 — вихід");
-				Console.Write("Ваш вибір: ");
+				ShowMenu();
 				string choice = Console.ReadLine();
 				Console.WriteLine();
 
 				switch (choice)
 				{
-					case "1":
-						ShowAbout();
-						Pause();
-						break;
-					case "2":
-						ShowFineTable();
-						Pause();
-						break;
-					case "3":
-						ShowGenreTable();
-						Pause();
-						break;
-					case "0":
-						running = false;
-						Console.WriteLine("До побачення.");
-						break;
+					case "1": ShowAbout(); Pause(); break;
+					case "2": ShowFineTable(); Pause(); break;
+					case "3": ShowGenreTable(); Pause(); break;
+					case "0": running = false; break;
 					default:
 						Console.WriteLine("Немає такого пункту. Спробуйте ще раз.");
 						Pause();
 						break;
 				}
 			}
+
+			Console.WriteLine("До побачення.");
+		}
+
+		// Виводить головне меню
+		static void ShowMenu()
+		{
+			Console.WriteLine("=== Бібліотека ===");
+			Console.WriteLine("1 — довідка про застосунок");
+			Console.WriteLine("2 — табулювання: штраф за прострочення");
+			Console.WriteLine("3 — таблиця: видачі за жанрами й днями тижня");
+			Console.WriteLine("0 — вихід");
+			Console.Write("Ваш вибір: ");
 		}
 
 		// Пауза перед поверненням у меню
