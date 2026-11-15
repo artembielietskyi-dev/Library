@@ -6,87 +6,87 @@ using System.Text;
 
 namespace Library
 {
-	internal class Program
-	{
-		// Ставка штрафу за один день і частка надбавки за тривале прострочення
-		const double DayRate = 2.5;
-		const double Surcharge = 0.05;
-		static void Main(string[] args)
-		{
-			Console.OutputEncoding = Encoding.UTF8;
-			Console.InputEncoding = Encoding.UTF8;
-			bool running = true;
+    internal class Program
+    {
+        // Ставка штрафу за один день і частка надбавки за тривале прострочення
+        const double DayRate = 2.5;
+        const double Surcharge = 0.05;
+        static void Main(string[] args)
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;
+            bool running = true;
 
-			while (running)
-			{
-				ShowMenu();
-				string choice = Console.ReadLine();
-				Console.WriteLine();
+            while (running)
+            {
+                ShowMenu();
+                string choice = Console.ReadLine();
+                Console.WriteLine();
 
-				switch (choice)
-				{
-					case "1": ShowAbout(); Pause(); break;
-					case "2": ShowFineTable(); Pause(); break;
-					case "3": ShowGenreTable(); Pause(); break;
-					case "0": running = false; break;
-					default:
-						Console.WriteLine("Немає такого пункту. Спробуйте ще раз.");
-						Pause();
-						break;
-				}
-			}
+                switch (choice)
+                {
+                    case "1": ShowAbout(); Pause(); break;
+                    case "2": ShowFineTable(); Pause(); break;
+                    case "3": ShowGenreTable(); Pause(); break;
+                    case "0": running = false; break;
+                    default:
+                        Console.WriteLine("Немає такого пункту. Спробуйте ще раз.");
+                        Pause();
+                        break;
+                }
+            }
 
-			Console.WriteLine("До побачення.");
-		}
+            Console.WriteLine("До побачення.");
+        }
 
-		// Виводить головне меню
-		static void ShowMenu()
-		{
-			Console.WriteLine("=== Бібліотека ===");
-			Console.WriteLine("1 — довідка про застосунок");
-			Console.WriteLine("2 — табулювання: штраф за прострочення");
-			Console.WriteLine("3 — таблиця: видачі за жанрами й днями тижня");
-			Console.WriteLine("0 — вихід");
-			Console.Write("Ваш вибір: ");
-		}
+        // Виводить головне меню
+        static void ShowMenu()
+        {
+            Console.WriteLine("=== Бібліотека ===");
+            Console.WriteLine("1 — довідка про застосунок");
+            Console.WriteLine("2 — табулювання: штраф за прострочення");
+            Console.WriteLine("3 — таблиця: видачі за жанрами й днями тижня");
+            Console.WriteLine("0 — вихід");
+            Console.Write("Ваш вибір: ");
+        }
 
-		// Пауза перед поверненням у меню
-		static void Pause()
-		{
-			Console.WriteLine("\nНатисніть будь-яку клавішу...");
-			Console.ReadKey(true);
-			Console.Clear();
-		}
+        // Пауза перед поверненням у меню
+        static void Pause()
+        {
+            Console.WriteLine("\nНатисніть будь-яку клавішу...");
+            Console.ReadKey(true);
+            Console.Clear();
+        }
 
-		// Довідка: тема, сутність, поля з типами
-		static void ShowAbout()
-		{
-			Console.WriteLine("Тема: Бібліотека");
-			Console.WriteLine("Головна сутність: Книга. Полів: 7.");
-			Console.WriteLine();
-			Console.WriteLine("Поля сутності «Книга»:");
-			Console.WriteLine("  int    — інвентарний номер");
-			Console.WriteLine("  string — назва");
-			Console.WriteLine("  string — автор");
-			Console.WriteLine("  int    — рік видання");
-			Console.WriteLine("  int    — код жанру (з довідника)");
-			Console.WriteLine("  int    — кількість примірників");
-			Console.WriteLine("  bool   — чи видана зараз");
-			Console.WriteLine();
-			Console.WriteLine("Довідник: Жанр (код, назва, чи активний).");
-			Console.WriteLine("Сутність: Користувач (з'явиться в роботі 14).");
-			Console.WriteLine("Підсумкова величина: кількість книг кожного жанру");
-			Console.WriteLine("та книги, видані понад 14 днів.");
-		}
+        // Довідка: тема, сутність, поля з типами
+        static void ShowAbout()
+        {
+            Console.WriteLine("Тема: Бібліотека");
+            Console.WriteLine("Головна сутність: Книга. Полів: 7.");
+            Console.WriteLine();
+            Console.WriteLine("Поля сутності «Книга»:");
+            Console.WriteLine("  int    — інвентарний номер");
+            Console.WriteLine("  string — назва");
+            Console.WriteLine("  string — автор");
+            Console.WriteLine("  int    — рік видання");
+            Console.WriteLine("  int    — код жанру (з довідника)");
+            Console.WriteLine("  int    — кількість примірників");
+            Console.WriteLine("  bool   — чи видана зараз");
+            Console.WriteLine();
+            Console.WriteLine("Довідник: Жанр (код, назва, чи активний).");
+            Console.WriteLine("Сутність: Користувач (з'явиться в роботі 14).");
+            Console.WriteLine("Підсумкова величина: кількість книг кожного жанру");
+            Console.WriteLine("та книги, видані понад 14 днів.");
+        }
 
-		// Рахує штраф за прострочення і повертає його (нічого не виводить).
-		// days — днів прострочення, ratePerDay — ставка за день, грн,
-		// surcharge — надбавка: частка від суми за кожен день прострочення.
-		// Формула: ratePerDay * days * (1 + surcharge * days)
-		static double CalculateFine(double days, double ratePerDay, double surcharge)
-		{
-			return ratePerDay * days * (1 + surcharge * days);
-		}
+        // Рахує штраф за прострочення і повертає його (нічого не виводить).
+        // days — днів прострочення, ratePerDay — ставка за день, грн,
+        // surcharge — надбавка: частка від суми за кожен день прострочення.
+        // Формула: ratePerDay * days * (1 + surcharge * days)
+        static double CalculateFine(double days, double ratePerDay, double surcharge)
+        {
+            return ratePerDay * days * (1 + surcharge * days);
+        }
 
         // Пункт меню «табулювання»: задає межі й крок, потім друкує таблицю
         static void ShowFineTable()
@@ -118,85 +118,99 @@ namespace Library
             }
         }
 
-        // Таблиця з двома входами та підсумками; розмір вводить користувач
+        // Пункт меню «таблиця»: задає розмір і викликає друк
         static void ShowGenreTable()
-		{
-			string[] genres = { "пригоди", "роман", "драма", "детектив",
-								"фантастика", "поезія", "історія", "казки" };
-			string[] days = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд" };
+        {
+            int rows = 5;
+            int cols = 7;
 
-			// Розмір таблиці питаємо в користувача
-			int rows = ReadSize("Скільки жанрів (рядків) показати", genres.Length);
-			if (rows == -1) return; // помилка вводу — повертаємось у меню
-			int cols = ReadSize("Скільки днів (стовпців) показати", days.Length);
-			if (cols == -1) return;
+            PrintGenreTable(rows, cols);
+        }
 
-			string head = "Жанр";
-			string sumHead = "Разом";
+        // Друкує таблицю «жанри × дні тижня» з підсумками по рядках і стовпцях
+        static void PrintGenreTable(int rows, int cols)
+        {
+            string[] genres = { "пригоди", "роман", "драма", "детектив",
+                                "фантастика", "поезія", "історія", "казки" };
+            string[] days = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд" };
 
-			Console.WriteLine();
-			Console.WriteLine("Видачі книг за жанрами й днями тижня");
+            string head = "Жанр";
+            string sumHead = "Разом";
 
-			// Шапка таблиці
-			Console.Write($"{head,-14}");
-			for (int c = 0; c < cols; c++)
-			{
-				Console.Write($"{days[c],6}");
-			}
-			Console.WriteLine($"{sumHead,8}");
-			Console.WriteLine(new string('-', 14 + cols * 6 + 8));
+            Console.WriteLine("Видачі книг за жанрами й днями тижня");
 
-			int[] colSum = new int[cols]; // підсумки по стовпцях
-			int total = 0;                // загальний підсумок
+            // Шапка таблиці
+            Console.Write($"{head,-14}");
+            for (int c = 0; c < cols; c++)
+            {
+                Console.Write($"{days[c],6}");
+            }
+            Console.WriteLine($"{sumHead,8}");
+            PrintSeparator(cols);
 
-			// Рядки таблиці
-			for (int r = 0; r < rows; r++)
-			{
-				int rowSum = 0; // обнуляється для кожного нового рядка
-				Console.Write($"{genres[r],-14}");
-				for (int c = 0; c < cols; c++)
-				{
-					int value = (r + c + 2 * r * c) % 8 + 1; // навчальні дані
-					Console.Write($"{value,6}");
-					rowSum += value;
-					colSum[c] += value;
-				}
-				Console.WriteLine($"{rowSum,8}");
-				total += rowSum;
-			}
+            int[] colSum = new int[cols]; // підсумки по стовпцях
+            int total = 0;                // загальний підсумок
 
-			// Рядок підсумків під таблицею
-			Console.WriteLine(new string('-', 14 + cols * 6 + 8));
-			Console.Write($"{sumHead,-14}");
-			for (int c = 0; c < cols; c++)
-			{
-				Console.Write($"{colSum[c],6}");
-			}
-			Console.WriteLine($"{total,8}");
-		}
+            // Рядки таблиці
+            for (int r = 0; r < rows; r++)
+            {
+                int rowSum = 0; // обнуляється для кожного нового рядка
+                Console.Write($"{genres[r],-14}");
+                for (int c = 0; c < cols; c++)
+                {
+                    int value = GetIssueCount(r, c);
+                    Console.Write($"{value,6}");
+                    rowSum += value;
+                    colSum[c] += value;
+                }
+                Console.WriteLine($"{rowSum,8}");
+                total += rowSum;
+            }
 
-		// Читає розмір таблиці. Повертає -1, якщо ввід неправильний
-		static int ReadSize(string prompt, int max)
-		{
-			Console.Write($"{prompt} (1–{max}): ");
-			string text = Console.ReadLine();
+            // Рядок підсумків під таблицею
+            PrintSeparator(cols);
+            Console.Write($"{sumHead,-14}");
+            for (int c = 0; c < cols; c++)
+            {
+                Console.Write($"{colSum[c],6}");
+            }
+            Console.WriteLine($"{total,8}");
+        }
 
-			if (!int.TryParse(text, out int n))
-			{
-				Console.WriteLine("Помилка: потрібно ввести ціле число.");
-				return -1;
-			}
-			if (n <= 0)
-			{
-				Console.WriteLine("Помилка: число має бути більшим за нуль.");
-				return -1;
-			}
-			if (n > max)
-			{
-				Console.WriteLine($"Помилка: максимум {max}.");
-				return -1;
-			}
-			return n;
-		}
-	}	
+        // Навчальні дані: скільки книг жанру genre видано в день day
+        static int GetIssueCount(int genre, int day)
+        {
+            return (genre + day + 2 * genre * day) % 8 + 1;
+        }
+
+        // Друкує горизонтальну лінію під ширину таблиці з cols стовпців
+        static void PrintSeparator(int cols)
+        {
+            Console.WriteLine(new string('-', 14 + cols * 6 + 8));
+        }
+
+        // Читає розмір таблиці. Повертає -1, якщо ввід неправильний
+        static int ReadSize(string prompt, int max)
+        {
+            Console.Write($"{prompt} (1–{max}): ");
+            string text = Console.ReadLine();
+
+            if (!int.TryParse(text, out int n))
+            {
+                Console.WriteLine("Помилка: потрібно ввести ціле число.");
+                return -1;
+            }
+            if (n <= 0)
+            {
+                Console.WriteLine("Помилка: число має бути більшим за нуль.");
+                return -1;
+            }
+            if (n > max)
+            {
+                Console.WriteLine($"Помилка: максимум {max}.");
+                return -1;
+            }
+            return n;
+        }
+    }
 }
