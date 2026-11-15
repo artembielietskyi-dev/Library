@@ -88,32 +88,38 @@ namespace Library
 			return ratePerDay * days * (1 + surcharge * days);
 		}
 
-		// Табулювання: штраф залежно від кількості днів прострочення
-		static void ShowFineTable()
-		{
-			double start = 0.5;
-			double end = 5.0;
-			double step = 0.5;
+        // Пункт меню «табулювання»: задає межі й крок, потім друкує таблицю
+        static void ShowFineTable()
+        {
+            double start = 0.5;
+            double end = 5.0;
+            double step = 0.5;
 
-			string h1 = "Днів";
-			string h2 = "Штраф";
-			string h3 = "З надбавкою";
+            PrintFineTable(start, end, step);
+        }
 
-			Console.WriteLine("Штраф за прострочення повернення книги");
-			Console.WriteLine($"{h1,8}{h2,12}{h3,16}");
-			Console.WriteLine(new string('-', 36));
+        // Табулює штраф: x іде від start до end з кроком step
+        static void PrintFineTable(double start, double end, double step)
+        {
+            string h1 = "Днів";
+            string h2 = "Штраф";
+            string h3 = "З надбавкою";
 
-			// 1e-9 — запас, бо дробові числа зберігаються наближено
-			for (double x = start; x <= end + 1e-9; x += step)
-			{
-				double fine = CalculateFine(x, DayRate, 0);
-				double fineExtra = CalculateFine(x, DayRate, Surcharge);
-				Console.WriteLine($"{x,8:F1}{fine,12:F2}{fineExtra,16:F2}");
-			}
-		}
+            Console.WriteLine("Штраф за прострочення повернення книги");
+            Console.WriteLine($"{h1,8}{h2,12}{h3,16}");
+            Console.WriteLine(new string('-', 36));
 
-		// Таблиця з двома входами та підсумками; розмір вводить користувач
-		static void ShowGenreTable()
+            // 1e-9 — запас, бо дробові числа зберігаються наближено
+            for (double x = start; x <= end + 1e-9; x += step)
+            {
+                double fine = CalculateFine(x, DayRate, 0);
+                double fineExtra = CalculateFine(x, DayRate, Surcharge);
+                Console.WriteLine($"{x,8:F1}{fine,12:F2}{fineExtra,16:F2}");
+            }
+        }
+
+        // Таблиця з двома входами та підсумками; розмір вводить користувач
+        static void ShowGenreTable()
 		{
 			string[] genres = { "пригоди", "роман", "драма", "детектив",
 								"фантастика", "поезія", "історія", "казки" };
