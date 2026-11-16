@@ -12,9 +12,11 @@ namespace Library
         // Ставка штрафу за один день і частка надбавки за тривале прострочення
         const double DayRate = 2.5;
         const double Surcharge = 0.05;
+
         // Найбільші розміри таблиці «жанри × дні тижня»
         const int MaxGenres = 8;
         const int MaxDays = 7;
+
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
