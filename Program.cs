@@ -2,6 +2,7 @@
 // Автор: Бєлєцький Артем
 
 using System;
+using System.Globalization;
 using System.Text;
 
 namespace Library
@@ -11,6 +12,9 @@ namespace Library
         // Ставка штрафу за один день і частка надбавки за тривале прострочення
         const double DayRate = 2.5;
         const double Surcharge = 0.05;
+        // Найбільші розміри таблиці «жанри × дні тижня»
+        const int MaxGenres = 8;
+        const int MaxDays = 7;
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -91,10 +95,11 @@ namespace Library
         // Пункт меню «табулювання»: задає межі й крок, потім друкує таблицю
         static void ShowFineTable()
         {
-            double start = 0.5;
-            double end = 5.0;
-            double step = 0.5;
+            double start = ReadDouble("Початок, днів (від 0,5 до 30)", 0.5, 30);
+            double end = ReadDouble($"Кінець, днів (від {start} до 30)", start, 30);
+            double step = ReadDouble("Крок, днів (від 0,1 до 5)", 0.1, 5);
 
+            Console.WriteLine();
             PrintFineTable(start, end, step);
         }
 
@@ -121,9 +126,10 @@ namespace Library
         // Пункт меню «таблиця»: задає розмір і викликає друк
         static void ShowGenreTable()
         {
-            int rows = 5;
-            int cols = 7;
+            int rows = ReadInt($"Скільки жанрів (рядків) показати (1–{MaxGenres})", 1, MaxGenres);
+            int cols = ReadInt($"Скільки днів (стовпців) показати (1–{MaxDays})", 1, MaxDays);
 
+            Console.WriteLine();
             PrintGenreTable(rows, cols);
         }
 
@@ -189,28 +195,50 @@ namespace Library
             Console.WriteLine(new string('-', 14 + cols * 6 + 8));
         }
 
-        // Читає розмір таблиці. Повертає -1, якщо ввід неправильний
-        static int ReadSize(string prompt, int max)
+        // Питає ціле число в межах [min; max], доки не отримає прийнятне
+        static int ReadInt(string prompt, int min, int max)
         {
-            Console.Write($"{prompt} (1–{max}): ");
-            string text = Console.ReadLine();
+            while (true)
+            {
+                Console.Write($"{prompt}: ");
+                string text = Console.ReadLine() ?? "";
 
-            if (!int.TryParse(text, out int n))
-            {
-                Console.WriteLine("Помилка: потрібно ввести ціле число.");
-                return -1;
+                if (!int.TryParse(text, out int value))
+                {
+                    Console.WriteLine("Помилка: потрібно ввести ціле число.");
+                    continue;
+                }
+                if (value < min || value > max)
+                {
+                    Console.WriteLine($"Помилка: число має бути від {min} до {max}.");
+                    continue;
+                }
+                return value;
             }
-            if (n <= 0)
+        }
+
+        // Питає дробове число в межах [min; max], доки не отримає прийнятне.
+        // Приймає і крапку, і кому як десятковий роздільник.
+        static double ReadDouble(string prompt, double min, double max)
+        {
+            while (true)
             {
-                Console.WriteLine("Помилка: число має бути більшим за нуль.");
-                return -1;
+                Console.Write($"{prompt}: ");
+                string text = (Console.ReadLine() ?? "").Replace(',', '.');
+
+                if (!double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out double value)
+                    || double.IsNaN(value))
+                {
+                    Console.WriteLine("Помилка: потрібно ввести число.");
+                    continue;
+                }
+                if (value < min || value > max)
+                {
+                    Console.WriteLine($"Помилка: число має бути від {min} до {max}.");
+                    continue;
+                }
+                return value;
             }
-            if (n > max)
-            {
-                Console.WriteLine($"Помилка: максимум {max}.");
-                return -1;
-            }
-            return n;
         }
     }
 }
