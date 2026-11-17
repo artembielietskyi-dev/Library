@@ -47,6 +47,7 @@ namespace Library
                             Pause();
                             break;
                         }
+                    case "5": PrintValues(fines, count); Pause(); break;
                     case "0": running = false; break;
                     default:
                         Console.WriteLine("Немає такого пункту. Спробуйте ще раз.");
@@ -66,6 +67,7 @@ namespace Library
             Console.WriteLine("2 — табулювання: штраф за прострочення");
             Console.WriteLine("3 — таблиця: видачі за жанрами й днями тижня");
             Console.WriteLine("4 — додати штраф у список");
+            Console.WriteLine("5 — показати список штрафів");
             Console.WriteLine("0 — вихід");
             Console.Write("Ваш вибір: ");
         }
@@ -271,6 +273,28 @@ namespace Library
 
             values[count] = newValue;
             count++;
+        }
+        // Виводить перші count елементів масиву таблицею з номерами.
+        // Нічого не читає з клавіатури: масив і лічильник приходять параметрами.
+        static void PrintValues(double[] values, int count)
+        {
+            if (count == 0)
+            {
+                Console.WriteLine("Список порожній.");
+                return;
+            }
+
+            string h1 = "№";
+            string h2 = "Штраф, грн";
+
+            Console.WriteLine("Штрафи, нараховані читачам");
+            Console.WriteLine($"{h1,4}{h2,14}");
+            Console.WriteLine(new string('-', 18));
+
+            for (int i = 0; i < count; i++)
+            {
+                Console.WriteLine($"{i + 1,4}{values[i],14:F2}");
+            }
         }
     }
 }
