@@ -21,6 +21,11 @@ namespace Library
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.InputEncoding = Encoding.UTF8;
+
+            // Список штрафів, нарахованих читачам: масив і лічильник живуть тільки тут
+            const int capacity = 100;
+            double[] fines = new double[capacity];
+            int count = 0;
             bool running = true;
 
             while (running)
@@ -34,6 +39,14 @@ namespace Library
                     case "1": ShowAbout(); Pause(); break;
                     case "2": ShowFineTable(); Pause(); break;
                     case "3": ShowGenreTable(); Pause(); break;
+                    case "4":
+                        {
+                            double newFine = ReadDouble("Сума штрафу, грн (від 0 до 10000)", 0, 10000);
+                            AddValue(fines, ref count, newFine, capacity);
+                            Console.WriteLine($"Записів у списку: {count}");
+                            Pause();
+                            break;
+                        }
                     case "0": running = false; break;
                     default:
                         Console.WriteLine("Немає такого пункту. Спробуйте ще раз.");
@@ -52,6 +65,7 @@ namespace Library
             Console.WriteLine("1 — довідка про застосунок");
             Console.WriteLine("2 — табулювання: штраф за прострочення");
             Console.WriteLine("3 — таблиця: видачі за жанрами й днями тижня");
+            Console.WriteLine("4 — додати штраф у список");
             Console.WriteLine("0 — вихід");
             Console.Write("Ваш вибір: ");
         }
@@ -241,6 +255,22 @@ namespace Library
                 }
                 return value;
             }
+        }
+        // Додає значення в кінець масиву.
+        // Масив іде без ref (він і так посилальний), лічильник — з ref,
+        // бо метод має змінити саме його. Нічого не читає з клавіатури.
+        // values — масив, count — скільки елементів заповнено,
+        // newValue — що додати, capacity — місткість масиву.
+        static void AddValue(double[] values, ref int count, double newValue, int capacity)
+        {
+            if (count == capacity)
+            {
+                Console.WriteLine("Місця більше немає.");
+                return;
+            }
+
+            values[count] = newValue;
+            count++;
         }
     }
 }
