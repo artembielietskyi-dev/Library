@@ -60,6 +60,7 @@ namespace Library
                             Pause();
                             break;
                         }
+                    case "7": ShowStatistics(fines, count); Pause(); break;
                     case "0": running = false; break;
                     default:
                         Console.WriteLine("Немає такого пункту. Спробуйте ще раз.");
@@ -81,6 +82,7 @@ namespace Library
             Console.WriteLine("4 — додати штраф у список");
             Console.WriteLine("5 — показати список штрафів");
             Console.WriteLine("6 — видалити штраф за номером");
+            Console.WriteLine("7 — статистика штрафів");
             Console.WriteLine("0 — вихід");
             Console.Write("Ваш вибір: ");
         }
@@ -326,6 +328,62 @@ namespace Library
 
             count--;
             values[count] = 0; // звільнене місце в кінці очищуємо
+        }
+        // Рахує суму й середнє значення. Обидва результати віддає через out.
+        static void Statistics(double[] values, int count, out double sum, out double average)
+        {
+            sum = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                sum += values[i];
+            }
+
+            // Без перевірки count > 0 порожній набір дав би 0 / 0 = NaN
+            average = count > 0 ? sum / count : 0;
+        }
+
+        // Шукає найбільше значення й його номер (з 1). Обидва результати — через out.
+        // Повертає false, якщо набір порожній.
+        static bool FindMax(double[] values, int count, out double max, out int number)
+        {
+            max = 0;
+            number = 0;
+
+            if (count == 0)
+            {
+                return false;
+            }
+
+            max = values[0];
+            number = 1;
+
+            for (int i = 1; i < count; i++)
+            {
+                if (values[i] > max)
+                {
+                    max = values[i];
+                    number = i + 1;
+                }
+            }
+
+            return true;
+        }
+        // Виводить статистику списку штрафів
+        static void ShowStatistics(double[] values, int count)
+        {
+            if (!FindMax(values, count, out double max, out int number))
+            {
+                Console.WriteLine("Список порожній, статистики немає.");
+                return;
+            }
+
+            Statistics(values, count, out double sum, out double average);
+
+            Console.WriteLine($"Записів: {count}");
+            Console.WriteLine($"Сума штрафів: {sum:F2} грн");
+            Console.WriteLine($"Середній штраф: {average:F2} грн");
+            Console.WriteLine($"Найбільший штраф: {max:F2} грн (запис №{number})");
         }
     }
 }
