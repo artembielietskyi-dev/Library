@@ -48,6 +48,18 @@ namespace Library
                             break;
                         }
                     case "5": PrintValues(fines, count); Pause(); break;
+                    case "6":
+                        {
+                            int number = ReadInt("Номер запису для видалення", int.MinValue, int.MaxValue);
+                            int before = count;
+                            RemoveAt(fines, ref count, number);
+                            if (count < before)
+                            {
+                                Console.WriteLine($"Запис №{number} видалено. Записів у списку: {count}");
+                            }
+                            Pause();
+                            break;
+                        }
                     case "0": running = false; break;
                     default:
                         Console.WriteLine("Немає такого пункту. Спробуйте ще раз.");
@@ -68,6 +80,7 @@ namespace Library
             Console.WriteLine("3 — таблиця: видачі за жанрами й днями тижня");
             Console.WriteLine("4 — додати штраф у список");
             Console.WriteLine("5 — показати список штрафів");
+            Console.WriteLine("6 — видалити штраф за номером");
             Console.WriteLine("0 — вихід");
             Console.Write("Ваш вибір: ");
         }
@@ -295,6 +308,24 @@ namespace Library
             {
                 Console.WriteLine($"{i + 1,4}{values[i],14:F2}");
             }
+        }
+        // Видаляє запис за номером (нумерація з 1, як у таблиці), зсуває решту
+        // вліво й зменшує лічильник. Неправильний номер — повідомлення й вихід.
+        static void RemoveAt(double[] values, ref int count, int index)
+        {
+            if (index < 1 || index > count)
+            {
+                Console.WriteLine($"Помилка: запису з номером {index} немає (у списку {count}).");
+                return;
+            }
+
+            for (int i = index - 1; i < count - 1; i++)
+            {
+                values[i] = values[i + 1];
+            }
+
+            count--;
+            values[count] = 0; // звільнене місце в кінці очищуємо
         }
     }
 }
