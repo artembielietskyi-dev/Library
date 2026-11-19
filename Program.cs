@@ -61,6 +61,7 @@ namespace Library
                             break;
                         }
                     case "7": ShowStatistics(fines, count); Pause(); break;
+                    case "8": ShowPassingDemo(); Pause(); break;
                     case "0": running = false; break;
                     default:
                         Console.WriteLine("Немає такого пункту. Спробуйте ще раз.");
@@ -83,6 +84,7 @@ namespace Library
             Console.WriteLine("5 — показати список штрафів");
             Console.WriteLine("6 — видалити штраф за номером");
             Console.WriteLine("7 — статистика штрафів");
+            Console.WriteLine("8 — дослід: значення й масив у методах");
             Console.WriteLine("0 — вихід");
             Console.Write("Ваш вибір: ");
         }
@@ -385,5 +387,41 @@ namespace Library
             Console.WriteLine($"Середній штраф: {average:F2} грн");
             Console.WriteLine($"Найбільший штраф: {max:F2} грн (запис №{number})");
         }
+        // Спроба змінити int без ref: метод працює з копією
+        static void IncreaseValue(int value)
+        {
+            value = value + 100;
+        }
+
+        // Зміна елемента масиву: метод працює з тим самим масивом
+        static void IncreaseElement(int[] fines)
+        {
+            fines[0] = fines[0] + 100;
+        }
+
+        // Спроба підмінити масив цілком: нова адреса лише в копії параметра
+        static void ReplaceArray(int[] fines)
+        {
+            fines = new int[] { 1, 2, 3 };
+        }
+
+        // Дослід: що видно в Main після виклику кожного методу
+        static void ShowPassingDemo()
+        {
+            int fine = 50;
+            int[] fines = { 50, 70, 90 };
+
+            Console.WriteLine($"До викликів: fine = {fine}, fines[0] = {fines[0]}");
+
+            IncreaseValue(fine);
+            IncreaseElement(fines);
+
+            Console.WriteLine($"Після IncreaseValue і IncreaseElement: fine = {fine}, fines[0] = {fines[0]}");
+
+            ReplaceArray(fines);
+
+            Console.WriteLine($"Після ReplaceArray: fines = {fines[0]}, {fines[1]}, {fines[2]}");
+        }
+
     }
 }
