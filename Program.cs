@@ -116,7 +116,10 @@ namespace Library
             Console.WriteLine("Сутність: Користувач (з'явиться в роботі 14).");
             Console.WriteLine("Підсумкова величина: кількість книг кожного жанру");
             Console.WriteLine("та книги, видані понад 14 днів.");
+            Console.WriteLine();
+            Console.WriteLine("Список штрафів: масив на 100 записів, пункти меню 4–8.");
         }
+
 
         // Рахує штраф за прострочення і повертає його (нічого не виводить).
         // days — днів прострочення, ratePerDay — ставка за день, грн,
@@ -422,6 +425,5 @@ namespace Library
 
             Console.WriteLine($"Після ReplaceArray: fines = {fines[0]}, {fines[1]}, {fines[2]}");
         }
-
     }
 }
