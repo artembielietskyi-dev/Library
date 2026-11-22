@@ -38,7 +38,6 @@ namespace Library
                 switch (choice)
                 {
                     case "1":
-                    case "2":
                     case "3":
                     case "4":
                     case "5":
@@ -48,6 +47,11 @@ namespace Library
                     case "9":
                     case "10":
                         Console.WriteLine("Поки не зроблено.");
+                        Pause();
+                        break;
+                    case "2":
+                        AddBook(ids, titles, authors, years, genreCodes, copies, issued,
+                                ref count, ref nextId, capacity);
                         Pause();
                         break;
                     case "0":
@@ -109,6 +113,74 @@ namespace Library
                 }
                 return value;
             }
+        }
+        // Питає непорожній текст не довший за maxLength, доки не отримає прийнятний
+        static string ReadText(string prompt, int maxLength)
+        {
+            while (true)
+            {
+                Console.Write($"{prompt}: ");
+                string text = (Console.ReadLine() ?? "").Trim();
+
+                if (text.Length == 0)
+                {
+                    Console.WriteLine("Помилка: значення не може бути порожнім.");
+                    continue;
+                }
+                if (text.Length > maxLength)
+                {
+                    Console.WriteLine($"Помилка: не більше {maxLength} символів.");
+                    continue;
+                }
+                return text;
+            }
+        }
+
+        // Питає «так» або «ні», доки не отримає одну з цих відповідей
+        static bool ReadYesNo(string prompt)
+        {
+            while (true)
+            {
+                Console.Write($"{prompt} (так/ні): ");
+                string text = (Console.ReadLine() ?? "").Trim().ToLower();
+
+                if (text == "так") return true;
+                if (text == "ні") return false;
+                Console.WriteLine("Помилка: введіть «так» або «ні».");
+            }
+        }
+        // Додає книгу в кінець сховища. Спершу перевіряє, чи є місце, потім збирає
+        // всі поля в локальні змінні й лише після цього записує їх у масиви.
+        // Масиви передаються без ref (вони посилальні), лічильники count і nextId — з ref
+        static void AddBook(int[] ids, string[] titles, string[] authors, int[] years,
+                           int[] genreCodes, int[] copies, bool[] issued,
+                           ref int count, ref int nextId, int capacity)
+        {
+            if (count == capacity)
+            {
+                Console.WriteLine("Сховище заповнене, видаліть щось зайве.");
+                return;
+            }
+
+            string title = ReadText("Назва", 30);
+            string author = ReadText("Автор", 20);
+            int year = ReadInt("Рік видання", 1450, DateTime.Now.Year);
+            int genre = ReadInt("Код жанру (1–8)", 1, 8);
+            int amount = ReadInt("Кількість примірників", 1, 100);
+            bool isIssued = ReadYesNo("Чи видана зараз");
+
+            ids[count] = nextId;
+            titles[count] = title;
+            authors[count] = author;
+            years[count] = year;
+            genreCodes[count] = genre;
+            copies[count] = amount;
+            issued[count] = isIssued;
+
+            count++;
+            nextId++;
+
+            Console.WriteLine($"Додано книгу №{ids[count - 1]}.");
         }
     }
 }
