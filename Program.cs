@@ -37,7 +37,6 @@ namespace Library
 
                 switch (choice)
                 {
-                    case "1":
                     case "3":
                     case "4":
                     case "5":
@@ -47,6 +46,10 @@ namespace Library
                     case "9":
                     case "10":
                         Console.WriteLine("Поки не зроблено.");
+                        Pause();
+                        break;
+                    case "1":
+                        PrintBooks(ids, titles, authors, years, genreCodes, copies, issued, count);
                         Pause();
                         break;
                     case "2":
@@ -181,6 +184,36 @@ namespace Library
             nextId++;
 
             Console.WriteLine($"Додано книгу №{ids[count - 1]}.");
+        }
+        // Виводить усі книги таблицею. Перебирає перші count комірок, а не весь масив
+        // усе приходить параметрами
+        static void PrintBooks(int[] ids, string[] titles, string[] authors, int[] years,
+                              int[] genreCodes, int[] copies, bool[] issued, int count)
+        {
+            if (count == 0)
+            {
+                Console.WriteLine("Записів поки немає.");
+                return;
+            }
+
+            string h1 = "№";
+            string h2 = "Назва";
+            string h3 = "Автор";
+            string h4 = "Рік";
+            string h5 = "Жанр";
+            string h6 = "Прим.";
+            string h7 = "Видана";
+
+            Console.WriteLine($"{h1,4} {h2,-32}{h3,-22}{h4,6}{h5,6}{h6,7}{h7,9}");
+            Console.WriteLine(new string('-', 87));
+
+            for (int i = 0; i < count; i++)
+            {
+                string mark = issued[i] ? "так" : "ні";
+                Console.WriteLine($"{ids[i],4} {titles[i],-32}{authors[i],-22}{years[i],6}{genreCodes[i],6}{copies[i],7}{mark,9}");
+            }
+
+            Console.WriteLine($"\nЗаписів: {count}.");
         }
     }
 }
