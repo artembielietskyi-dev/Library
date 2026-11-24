@@ -44,7 +44,6 @@ namespace Library
                     case "7":
                     case "8":
                     case "9":
-                    case "10":
                         Console.WriteLine("Поки не зроблено.");
                         Pause();
                         break;
@@ -55,6 +54,11 @@ namespace Library
                     case "2":
                         AddBook(ids, titles, authors, years, genreCodes, copies, issued,
                                 ref count, ref nextId, capacity);
+                        Pause();
+                        break;
+                    case "10":
+                        FillDemoBooks(ids, titles, authors, years, genreCodes, copies, issued,
+                                      ref count, ref nextId, capacity);
                         Pause();
                         break;
                     case "0":
@@ -214,6 +218,40 @@ namespace Library
             }
 
             Console.WriteLine($"\nЗаписів: {count}.");
+        }
+        // Додає в кінець сховища кілька готових книг для перевірки програми.
+        static void FillDemoBooks(int[] ids, string[] titles, string[] authors, int[] years,
+                                 int[] genreCodes, int[] copies, bool[] issued,
+                                 ref int count, ref int nextId, int capacity)
+        {
+            string[] demoTitles = { "Тигролови", "Місто", "Лісова пісня", "Тіні забутих предків", "Захар Беркут", "Кобзар" };
+            string[] demoAuthors = { "Багряний І.", "Підмогильний В.", "Українка Л.", "Коцюбинський М.", "Франко І.", "Шевченко Т." };
+            int[] demoYears = { 1944, 1928, 1911, 1911, 1883, 1840 };
+            int[] demoGenres = { 1, 2, 3, 2, 1, 4 };
+            int[] demoCopies = { 3, 2, 5, 4, 2, 6 };
+            bool[] demoIssued = { true, false, true, false, true, false };
+
+            if (count + demoTitles.Length > capacity)
+            {
+                Console.WriteLine("Не вистачає місця для готових записів.");
+                return;
+            }
+
+            for (int i = 0; i < demoTitles.Length; i++)
+            {
+                ids[count] = nextId;
+                titles[count] = demoTitles[i];
+                authors[count] = demoAuthors[i];
+                years[count] = demoYears[i];
+                genreCodes[count] = demoGenres[i];
+                copies[count] = demoCopies[i];
+                issued[count] = demoIssued[i];
+
+                count++;
+                nextId++;
+            }
+
+            Console.WriteLine($"Додано готових записів: {demoTitles.Length}. Записів у списку: {count}.");
         }
     }
 }
