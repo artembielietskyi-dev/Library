@@ -218,6 +218,7 @@ namespace Library
             }
 
             Console.WriteLine($"\nЗаписів: {count}.");
+            Console.WriteLine($"Виданих зараз: {CountIssued(issued, count)}.");
         }
         // Додає в кінець сховища кілька готових книг для перевірки програми.
         static void FillDemoBooks(int[] ids, string[] titles, string[] authors, int[] years,
@@ -252,6 +253,22 @@ namespace Library
             }
 
             Console.WriteLine($"Додано готових записів: {demoTitles.Length}. Записів у списку: {count}.");
+        }
+        // Рахує, скільки книг зараз видано. Нічого не виводить, а повертає число.
+        // Якщо сховище порожнє (count = 0), цикл не виконується і результат 0.
+        static int CountIssued(bool[] issued, int count)
+        {
+            int total = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                if (issued[i])
+                {
+                    total++;
+                }
+            }
+
+            return total;
         }
     }
 }
